@@ -1,4 +1,5 @@
 import com.mashape.unirest.http.Unirest;
+import http.requests.Options;
 import requests.Requests;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ public class Main {
     public static void main(String... args) {
 
         Unirest.setDefaultHeader("content-type", "application/json");
-
+        Options.addDefaultParam("APIkey", "INSERT API KEY"); //TODO PUT APIKEY HERE
 //        System.out.println(Requests.getCountries());
 //        System.out.println(Requests.getCompetitions(169));
 //        System.out.println(Requests.getCompetitions(173));
@@ -26,7 +27,8 @@ public class Main {
 //        Requests.getFixtures(169, 63, 0, twoDaysAgo, Calendar.getInstance()).forEach(e -> {
 //            System.out.println(e.getMatchAwayteamName() + ", " + e.getGoalscorer());
 //        });
-        System.out.println(Requests.getLiveFixtures(Requests.League.CHAMPIONSHIP));
+
+        System.out.println(Requests.getLiveFixtures(Requests.League.LIGUE2));
 
         shutdown();
     }

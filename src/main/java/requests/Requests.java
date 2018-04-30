@@ -3,6 +3,7 @@ package requests;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import http.requests.AsyncHttpRequest;
+import http.requests.ParameterMap;
 import responses.*;
 import utils.JsonUtils;
 
@@ -17,12 +18,12 @@ public class Requests {
 
     private static AsyncHttpRequest asyncHttpRequest = new AsyncHttpRequest();
 
-    private static Future<HttpResponse<JsonNode>> getActionFuture(ParamMap parameters) {
+    private static Future<HttpResponse<JsonNode>> getActionFuture(ParameterMap parameters) {
         return asyncHttpRequest.getJsonFuture("https://apifootball.com/api/", parameters);
     }
 
-    private static String getResponse(ParamMap paramMap) {
-        Future<HttpResponse<JsonNode>> request = getActionFuture(paramMap);
+    private static String getResponse(ParameterMap ParameterMap) {
+        Future<HttpResponse<JsonNode>> request = getActionFuture(ParameterMap);
 
         String response = "";
 
@@ -44,38 +45,38 @@ public class Requests {
     }
 
     public static List<Country> getCountries() {
-        ParamMap parameters = new ParamMap()
-                .add("action", "get_countries");
+        ParameterMap parameters = new ParameterMap()
+                .put("action", "get_countries");
         String response = getResponse(parameters);
 
         return Arrays.asList(JsonUtils.parse(response, Country[].class));
     }
 
     public static List<Competition> getCompetitions(int countryId) {
-        ParamMap parameters = new ParamMap()
-                .add("action", "get_leagues")
-                .add("country_id", Integer.toString(countryId));
+        ParameterMap parameters = new ParameterMap()
+                .put("action", "get_leagues")
+                .put("country_id", Integer.toString(countryId));
         String response = getResponse(parameters);
 
         return Arrays.asList(JsonUtils.parse(response, Competition[].class));
     }
 
     public static List<Standing> getStandings(int leagueId) {
-        ParamMap parameters = new ParamMap()
-                .add("action", "get_standings")
-                .add("league_id", Integer.toString(leagueId));
+        ParameterMap parameters = new ParameterMap()
+                .put("action", "get_standings")
+                .put("league_id", Integer.toString(leagueId));
         String response = getResponse(parameters);
 
         return Arrays.asList(JsonUtils.parse(response, Standing[].class));
     }
 
     public static List<Fixture> getFixtures(int countryId, int leagueId, int matchId, String from, String to) {
-        ParamMap parameters = new ParamMap().add("action", "get_events")
-                .add("country_id", Integer.toString(countryId))
-                .add("league_id", Integer.toString(leagueId))
-                .add("match_id", Integer.toString(matchId))
-                .add("from", from)
-                .add("to", to);
+        ParameterMap parameters = new ParameterMap().put("action", "get_events")
+                .put("country_id", Integer.toString(countryId))
+                .put("league_id", Integer.toString(leagueId))
+                .put("match_id", Integer.toString(matchId))
+                .put("from", from)
+                .put("to", to);
 
         String response = getResponse(parameters);
 
@@ -83,13 +84,13 @@ public class Requests {
     }
 
     public static List<Fixture> getLiveFixtures(int countryId, int leagueId, int matchId) {
-        ParamMap parameters = new ParamMap().add("action", "get_events")
-                .add("country_id", Integer.toString(countryId))
-                .add("league_id", Integer.toString(leagueId))
-                .add("match_id", Integer.toString(matchId))
-                .add("from", calendarToString(Calendar.getInstance()))
-                .add("to", calendarToString(Calendar.getInstance()))
-                .add("match_live", "1");
+        ParameterMap parameters = new ParameterMap().put("action", "get_events")
+                .put("country_id", Integer.toString(countryId))
+                .put("league_id", Integer.toString(leagueId))
+                .put("match_id", Integer.toString(matchId))
+                .put("from", calendarToString(Calendar.getInstance()))
+                .put("to", calendarToString(Calendar.getInstance()))
+                .put("match_live", "1");
 
         String response = getResponse(parameters);
 
@@ -106,12 +107,12 @@ public class Requests {
         String fromString = calendarToString(from);
         String toString = calendarToString(to);
 
-        ParamMap parameters = new ParamMap().add("action", "get_events")
-                .add("country_id", Integer.toString(countryId))
-                .add("league_id", Integer.toString(leagueId))
-                .add("match_id", Integer.toString(matchId))
-                .add("from", fromString)
-                .add("to", toString);
+        ParameterMap parameters = new ParameterMap().put("action", "get_events")
+                .put("country_id", Integer.toString(countryId))
+                .put("league_id", Integer.toString(leagueId))
+                .put("match_id", Integer.toString(matchId))
+                .put("from", fromString)
+                .put("to", toString);
 
         String response = getResponse(parameters);
 
@@ -127,10 +128,10 @@ public class Requests {
      * @return
      */
     public static List<Odd> getOdds(int matchId, String from, String to) {
-        ParamMap parameters = new ParamMap().add("action", "get_odds")
-                .add("match_id", Integer.toString(matchId))
-                .add("from", from)
-                .add("to", to);
+        ParameterMap parameters = new ParameterMap().put("action", "get_odds")
+                .put("match_id", Integer.toString(matchId))
+                .put("from", from)
+                .put("to", to);
 
         String response = getResponse(parameters);
 
@@ -138,9 +139,9 @@ public class Requests {
     }
 
     public static HeadToHead getHeadToHead(String firstTeamName, String secondTeamName) {
-        ParamMap parameters = new ParamMap().add("action", "get_H2H")
-                .add("firstTeam", firstTeamName)
-                .add("secondTeam", secondTeamName);
+        ParameterMap parameters = new ParameterMap().put("action", "get_H2H")
+                .put("firstTeam", firstTeamName)
+                .put("secondTeam", secondTeamName);
 
         String response = getResponse(parameters);
 
